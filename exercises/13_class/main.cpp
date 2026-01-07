@@ -15,11 +15,16 @@ class Fibonacci {
 public:
     // TODO: 实现构造器
     // Fibonacci()
+    Fibonacci() {
+        cache[0] = 0;
+        cache[1] = 1;
+        cached = 1;
+    }
 
     // TODO: 实现正确的缓存优化斐波那契计算
     size_t get(int i) {
-        for (; false; ++cached) {
-            cache[cached] = cache[cached - 1] + cache[cached - 2];
+        for (; cached < i; ++cached) {
+            cache[cached + 1] = cache[cached] + cache[cached - 1];
         }
         return cache[i];
     }

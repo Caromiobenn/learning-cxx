@@ -10,18 +10,27 @@ class DynFibonacci {
 
 public:
     // TODO: 实现动态设置容量的构造器
-    DynFibonacci(int capacity): cache(new ?), cached(?) {}
+    DynFibonacci(int capacity): cache(new size_t[capacity]), cached(1) {
+        cache[0] = 0;
+        cache[1] = 1;
+    }
 
     // TODO: 实现复制构造器
-    DynFibonacci(DynFibonacci const &) = delete;
+    DynFibonacci(DynFibonacci const & f) : cache(new size_t[f.cached+1]), cached(f.cached) {
+        for (int i = 0; i <= cached; ++i) {
+            cache[i] = f.cache[i];
+        }
+    }
 
     // TODO: 实现析构器，释放缓存空间
-    ~DynFibonacci();
+    ~DynFibonacci() {
+        delete[] cache;
+    }
 
     // TODO: 实现正确的缓存优化斐波那契计算
     size_t get(int i) {
-        for (; false; ++cached) {
-            cache[cached] = cache[cached - 1] + cache[cached - 2];
+        for (; cached < i; ++cached) {
+            cache[cached + 1] = cache[cached] + cache[cached - 1];
         }
         return cache[i];
     }
@@ -45,3 +54,12 @@ int main(int argc, char **argv) {
     ASSERT(fib_.get(10) == fib.get(10), "Object cloned");
     return 0;
 }
+//这道题目考察的是clone
+//即复制构造函数的实现
+//复制构造函数的作用是用一个已经存在的对象来初始化一个新对象
+//在这里，我们需要为DynFibonacci类实现一个复制构造函数
+//复制构造函数的签名是DynFibonacci(DynFibonacci const & f)
+//它接受一个对同类型对象的常量引用作为参数
+//在复制构造函数的实现中，我们需要为新对象分配新的内存来存储缓存数组
+//然后将传入对象的缓存数据复制到新对象的缓存中
+//最后，我们在main函数中测试了复制构造函数的正确性
